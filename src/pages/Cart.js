@@ -19,7 +19,7 @@ export default class Cart extends Component {
           produtosNoCarrinho ? (
             produtosNoCarrinho.map(({ title, price, image, quantidade }) => (
               <div key={ title }>
-                <p data-testid="shopping-cart-product-name">{ image }</p>
+                <p data-testid="shopping-cart-product-name">{ title }</p>
                 <p>{ price }</p>
                 <img src={ image } alt={ title } />
                 <p data-testid="shopping-cart-product-quantity">{ quantidade }</p>

@@ -1,19 +1,19 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
-import { getProductById } from '../services/api';
+// import { getProductById } from '../services/api';
 
 export default class Products extends Component {
-  state = {
-    produto: [],
-  };
+  // state = {
+  //   produto: [],
+  // };
 
   atualizaStorage = async ({ target }) => {
-    const { produto } = this.state;
+    // const { produto } = this.state;
     const { firstChild } = target.parentNode;
-    const idProduct = firstChild.firstChild.firstChild.innerText;
-    const produtos = await getProductById(idProduct);
-    this.setState({ produto: [produtos] });
+    // const idProduct = firstChild.firstChild.firstChild.innerText;
+    // const produtos = await getProductById(idProduct);
+    // this.setState({ produto: [produtos] });
     const produtosAntigos = JSON.parse(localStorage.getItem('produtosSalvos'));
     const titleProduct = (
       firstChild.firstChild.firstChild.nextSibling.innerText);
@@ -40,14 +40,14 @@ export default class Products extends Component {
       produtosDiferentes = produtosAntigos
         .filter(({ title }) => title !== titleProduct);
     }
-    await produtosDiferentes.push({
+    produtosDiferentes.push({
       title: titleProduct,
       price: priceProduct,
       image: imageProduct,
       quantidade: count(),
     });
     localStorage.setItem('produtosSalvos', JSON.stringify(produtosDiferentes));
-    console.log(produto);
+    // console.log(produto);
   };
 
   render() {
