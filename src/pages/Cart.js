@@ -5,8 +5,8 @@ export default class Cart extends Component {
     produtosNoCarrinho: [],
   };
 
-  async componentDidMount() {
-    const produtosSalvos = await JSON.parse(localStorage.getItem('produtosSalvos'));
+  componentDidMount() {
+    const produtosSalvos = JSON.parse(localStorage.getItem('produtosSalvos'));
     this.setState({
       produtosNoCarrinho: produtosSalvos,
     });
