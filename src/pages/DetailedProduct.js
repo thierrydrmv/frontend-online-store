@@ -14,7 +14,7 @@ export default class DetailedProduct extends Component {
     this.setState({ produto: [produto] });
   }
 
-  atualizaStorage = () => {
+  atualizaStorage = async () => {
     const { produto } = this.state;
     const produtosAntigos = JSON.parse(localStorage.getItem('produtosSalvos'));
     let produtosDiferentes = [];
@@ -26,6 +26,7 @@ export default class DetailedProduct extends Component {
     produtosDiferentes.push({
       title: produto[0].title,
       price: produto[0].price,
+      image: produto[0].thumbnail,
       quantidade: this.atualizaEstado(),
     });
 
@@ -36,15 +37,12 @@ export default class DetailedProduct extends Component {
     const { produto } = this.state;
     const produtosAntigos = JSON.parse(localStorage.getItem('produtosSalvos'));
     if (produtosAntigos === null) {
-    //   this.setState({ quantidadeSalva: 1 });
       return 1;
     } if (produtosAntigos.some((elemento) => elemento.title === produto[0].title)) {
       const qtd = produtosAntigos
         .filter((elemento) => elemento.title === produto[0].title)[0].quantidade;
-      //   this.setState({ quantidadeSalva: qtd + 1 });
       return qtd + 1;
     }
-    //   this.setState({ quantidadeSalva: 1 });
     return 1;
   };
 

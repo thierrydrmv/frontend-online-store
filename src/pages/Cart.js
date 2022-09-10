@@ -12,35 +12,17 @@ export default class Cart extends Component {
 
   render() {
     const { produtosNoCarrinho } = this.state;
-
-    const verificaProduto = (produtos) => {
-      if (produtos === null || produtos.length === 0) {
-        return (
-          <div>
-            <p data-testid="shopping-cart-empty-message">Seu carrinho está vazio</p>
-          </div>
-        );
-      }
-      return (
-        produtos.map((elemento) => (
-          <div key={ elemento.title }>
-            <p data-testid="shopping-cart-product-name">{elemento.title}</p>
-            <p>{elemento.price}</p>
-            <p data-testid="shopping-cart-product-quantity">{elemento.quantidade}</p>
-          </div>
-        ))
-      );
-    };
-
     return (
       <div>
-        {/* {
+        { console.log(produtosNoCarrinho) }
+        {
           produtosNoCarrinho ? (
-            produtosNoCarrinho.map((elemento) => (
-              <div key={ elemento.title }>
-                <p data-testid="shopping-cart-product-name">{elemento.title}</p>
-                <p>{elemento.price}</p>
-                <p data-testid="shopping-cart-product-quantity">{elemento.quantidade}</p>
+            produtosNoCarrinho.map(({ title, price, image, quantidade }) => (
+              <div key={ title }>
+                <p data-testid="shopping-cart-product-name">{ image }</p>
+                <p>{ price }</p>
+                <img src={ image } alt={ title } />
+                <p data-testid="shopping-cart-product-quantity">{ quantidade }</p>
               </div>
             ))
           ) : (
@@ -48,10 +30,6 @@ export default class Cart extends Component {
               <p data-testid="shopping-cart-empty-message">Seu carrinho está vazio</p>
             </div>
           )
-        } */}
-
-        {
-          verificaProduto(produtosNoCarrinho)
         }
 
       </div>
