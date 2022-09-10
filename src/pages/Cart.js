@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 
 export default class Cart extends Component {
   state = {
-    produtosNoCarrinho: [],
+    produtosNoCarrinho: null,
   };
 
   componentDidMount() {
@@ -12,22 +12,22 @@ export default class Cart extends Component {
     });
   }
 
-  increaseQuantity = ({ target }) => {
+  increaseQuantity = (titleProduct) => {
     const { produtosNoCarrinho } = this.state;
-    const { firstChild } = target.parentNode;
-    const titleProduct = (
-      firstChild.innerText);
+    // const { firstChild } = target.parentNode;
+    // const titleProduct = (
+    //   firstChild.innerText);
     const filter = produtosNoCarrinho.filter(({ title }) => title === titleProduct);
     filter[0].quantidade += 1;
     this.setState({ produtosNoCarrinho });
     localStorage.setItem('produtosSalvos', JSON.stringify(produtosNoCarrinho));
   };
 
-  decreaseQuantity = ({ target }) => {
+  decreaseQuantity = (titleProduct) => {
     const { produtosNoCarrinho } = this.state;
-    const { firstChild } = target.parentNode;
-    const titleProduct = (
-      firstChild.innerText);
+    // const { firstChild } = target.parentNode;
+    // const titleProduct = (
+    //   firstChild.innerText);
     const filter = produtosNoCarrinho.filter(({ title }) => title === titleProduct);
     if (filter[0].quantidade > 1) {
       filter[0].quantidade -= 1;
@@ -36,11 +36,11 @@ export default class Cart extends Component {
     }
   };
 
-  removeFromCart = ({ target }) => {
+  removeFromCart = (titleProduct) => {
     const { produtosNoCarrinho } = this.state;
-    const { firstChild } = target.parentNode;
-    const titleProduct = (
-      firstChild.innerText);
+    // const { firstChild } = target.parentNode;
+    // const titleProduct = (
+    //   firstChild.innerText);
     const filter = produtosNoCarrinho.filter(({ title }) => title !== titleProduct);
     this.setState({ produtosNoCarrinho: filter });
     localStorage.setItem('produtosSalvos', JSON.stringify(filter));
@@ -59,21 +59,21 @@ export default class Cart extends Component {
                 <img src={ image } alt={ title } />
                 <p data-testid="shopping-cart-product-quantity">{ quantidade }</p>
                 <button
-                  onClick={ this.increaseQuantity }
+                  onClick={ () => this.increaseQuantity(title) }
                   data-testid="product-increase-quantity"
                   type="button"
                 >
                   +
                 </button>
                 <button
-                  onClick={ this.decreaseQuantity }
+                  onClick={ () => this.decreaseQuantity(title) }
                   data-testid="product-decrease-quantity"
                   type="button"
                 >
                   -
                 </button>
                 <button
-                  onClick={ this.removeFromCart }
+                  onClick={ () => this.removeFromCart(title) }
                   data-testid="remove-product"
                   type="button"
                 >

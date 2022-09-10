@@ -8,42 +8,41 @@ export default class Products extends Component {
   //   produto: [],
   // };
 
-  atualizaStorage = async ({ target }) => {
+  atualizaStorage = async (item) => {
     // const { produto } = this.state;
-    const { firstChild } = target.parentNode;
+    // const { firstChild } = target.parentNode;
     // const idProduct = firstChild.firstChild.firstChild.innerText;
     // const produtos = await getProductById(idProduct);
     // this.setState({ produto: [produtos] });
     const produtosAntigos = JSON.parse(localStorage.getItem('produtosSalvos'));
-    const titleProduct = (
-      firstChild.firstChild.firstChild.nextSibling.innerText);
-    const priceProduct = (
-      firstChild.firstChild.firstChild.nextSibling.nextSibling.innerText
-    );
-    const imageProduct = (
-      firstChild.firstChild.firstChild.nextSibling.nextSibling.nextSibling.src
-    );
+    // const titleProduct = (
+    //   firstChild.firstChild.firstChild.nextSibling.innerText);
+    // const priceProduct = (
+    //   firstChild.firstChild.firstChild.nextSibling.nextSibling.innerText
+    // );
+    // const imageProduct = (
+    //   firstChild.firstChild.firstChild.nextSibling.nextSibling.nextSibling.src
+    // );
     let produtosDiferentes = [];
     const count = () => {
       let number = 1;
       if (!produtosAntigos) {
         return number;
       }
-      if (produtosAntigos.some(({ title }) => title === titleProduct)) {
+
+      if (produtosAntigos.some(({ title }) => title === item.title)) {
         const qtd = produtosAntigos
-          .filter(({ title }) => title === titleProduct)[0].quantidade;
+          .filter(({ title }) => title === item.title)[0].quantidade;
         number = qtd + 1;
       }
       return number;
     };
     if (produtosAntigos !== null) {
       produtosDiferentes = produtosAntigos
-        .filter(({ title }) => title !== titleProduct);
+        .filter(({ title }) => title !== item.title);
     }
     produtosDiferentes.push({
-      title: titleProduct,
-      price: priceProduct,
-      image: imageProduct,
+      ...item,
       quantidade: count(),
     });
     localStorage.setItem('produtosSalvos', JSON.stringify(produtosDiferentes));
@@ -77,7 +76,7 @@ export default class Products extends Component {
         <button
           data-testid="product-add-to-cart"
           type="button"
-          onClick={ this.atualizaStorage }
+          onClick={ () => this.atualizaStorage({ title, image: thumbnail, price }) }
         >
           Adicionar ao Carrinho
         </button>
