@@ -6,10 +6,20 @@ import { getProductById } from '../services/api';
 export default class DetailedProduct extends Component {
   state = {
     produto: [],
+    numeros: ['1', '2', '3', '4', '5'],
+    avaliacaoIncorreta: false,
+    email: '',
+    option: null,
+    comentario: '',
+    avaliacoes: [],
   };
 
   async componentDidMount() {
     const { match: { params: { id } } } = this.props;
+    const avaliacoesAnteriores = localStorage.getItem(id);
+    if (avaliacoesAnteriores) {
+      this.setState({ avaliacoes: JSON.parse(avaliacoesAnteriores) });
+    }
     const produto = await getProductById(id);
     this.setState({ produto: [produto] });
   }
@@ -46,8 +56,47 @@ export default class DetailedProduct extends Component {
     return 1;
   };
 
+  enviaForm = () => {
+    const { email, option, comentario } = this.state;
+    if (email && option && comentario) {
+      const objComentario = {
+        email,
+        text: comentario,
+        rating: option,
+      };
+      this.setState((before) => ({
+        avaliacaoIncorreta: false,
+        email: '',
+        option: null,
+        comentario: '',
+        avaliacoes: [...before.avaliacoes, objComentario],
+      }), () => this.comentaStorage());
+    } else {
+      this.setState({ avaliacaoIncorreta: true });
+    }
+  };
+
+  comentaStorage = () => {
+    const { avaliacoes } = this.state;
+    const { match: { params: { id } } } = this.props;
+    localStorage.setItem(id, JSON.stringify(avaliacoes));
+  };
+
+  handleChange = (evento) => {
+    const valor = evento.target.value;
+    const nome = evento.target.name;
+    this.setState({ [nome]: valor });
+  };
+
   render() {
-    const { produto } = this.state;
+    const {
+      avaliacaoIncorreta,
+      produto,
+      numeros,
+      email,
+      comentario,
+      avaliacoes,
+    } = this.state;
 
     return (
       <div>
@@ -72,6 +121,58 @@ export default class DetailedProduct extends Component {
         <button type="button" className="botao">
           <Link to="/Cart" data-testid="shopping-cart-button">Carrinho</Link>
         </button>
+
+        <form>
+          <input
+            type="email"
+            data-testid="product-detail-email"
+            onChange={ this.handleChange }
+            name="email"
+            value={ email }
+          />
+          {
+            numeros.map((numero) => (
+              <div key={ `id${numero}` }>
+                <input
+                  type="radio"
+                  name="option"
+                  id={ numero }
+                  value={ numero }
+                  data-testid={ `${numero}-rating` }
+                  onChange={ this.handleChange }
+                />
+                <label htmlFor={ numero }>{numero}</label>
+              </div>
+            ))
+          }
+          <textarea
+            data-testid="product-detail-evaluation"
+            name="comentario"
+            onChange={ this.handleChange }
+            value={ comentario }
+          />
+          <button
+            type="button"
+            data-testid="submit-review-btn"
+            onClick={ this.enviaForm }
+          >
+            Enviar Avaliação
+          </button>
+        </form>
+        {
+          avaliacaoIncorreta && <p data-testid="error-msg">Campos inválidos</p>
+        }
+        {
+          avaliacoes && (
+            avaliacoes.map((avaliacao) => (
+              <div key={ avaliacao.email }>
+                <p data-testid="review-card-email">{avaliacao.email}</p>
+                <p data-testid="review-card-rating">{avaliacao.rating}</p>
+                <p data-testid="review-card-evaluation">{avaliacao.text}</p>
+              </div>
+            ))
+          )
+        }
       </div>
     );
   }
