@@ -57,15 +57,15 @@ export default class DetailedProduct extends Component {
   };
 
   verificaForm = () => {
-    const { email, option, comentario } = this.state;
-    if (email && option && comentario) {
+    const { option } = this.state;
+    if (option) {
       this.setState({ avaliacaoIncorreta: false });
     }
   };
 
   enviaForm = () => {
     const { email, option, comentario } = this.state;
-    if (email && option && comentario) {
+    if (option) {
       const objComentario = {
         email,
         text: comentario,
@@ -151,7 +151,7 @@ export default class DetailedProduct extends Component {
                   id={ numero }
                   value={ numero }
                   data-testid={ `${numero}-rating` }
-                  onChange={ this.handleChange }
+                  onClick={ this.handleChange }
                 />
                 <label htmlFor={ numero }>{numero}</label>
               </div>
