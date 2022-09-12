@@ -56,6 +56,13 @@ export default class DetailedProduct extends Component {
     return 1;
   };
 
+  verificaForm = () => {
+    const { email, option, comentario } = this.state;
+    if (email && option && comentario) {
+      this.setState({ avaliacaoIncorreta: false });
+    }
+  };
+
   enviaForm = () => {
     const { email, option, comentario } = this.state;
     if (email && option && comentario) {
@@ -64,6 +71,10 @@ export default class DetailedProduct extends Component {
         text: comentario,
         rating: option,
       };
+      const opcoes = document.getElementsByClassName('opcao');
+      for (let index = 0; index < opcoes.length; index += 1) {
+        opcoes[index].checked = false;
+      }
       this.setState((before) => ({
         avaliacaoIncorreta: false,
         email: '',
@@ -85,7 +96,7 @@ export default class DetailedProduct extends Component {
   handleChange = (evento) => {
     const valor = evento.target.value;
     const nome = evento.target.name;
-    this.setState({ [nome]: valor });
+    this.setState({ [nome]: valor }, () => this.verificaForm());
   };
 
   render() {
@@ -136,6 +147,7 @@ export default class DetailedProduct extends Component {
                 <input
                   type="radio"
                   name="option"
+                  className="opcao"
                   id={ numero }
                   value={ numero }
                   data-testid={ `${numero}-rating` }
