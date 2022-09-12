@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Link } from 'react-router-dom';
 
 export default class Cart extends Component {
   state = {
@@ -14,9 +15,6 @@ export default class Cart extends Component {
 
   increaseQuantity = (titleProduct) => {
     const { produtosNoCarrinho } = this.state;
-    // const { firstChild } = target.parentNode;
-    // const titleProduct = (
-    //   firstChild.innerText);
     const filter = produtosNoCarrinho.filter(({ title }) => title === titleProduct);
     filter[0].quantidade += 1;
     this.setState({ produtosNoCarrinho });
@@ -25,9 +23,6 @@ export default class Cart extends Component {
 
   decreaseQuantity = (titleProduct) => {
     const { produtosNoCarrinho } = this.state;
-    // const { firstChild } = target.parentNode;
-    // const titleProduct = (
-    //   firstChild.innerText);
     const filter = produtosNoCarrinho.filter(({ title }) => title === titleProduct);
     if (filter[0].quantidade > 1) {
       filter[0].quantidade -= 1;
@@ -38,9 +33,6 @@ export default class Cart extends Component {
 
   removeFromCart = (titleProduct) => {
     const { produtosNoCarrinho } = this.state;
-    // const { firstChild } = target.parentNode;
-    // const titleProduct = (
-    //   firstChild.innerText);
     const filter = produtosNoCarrinho.filter(({ title }) => title !== titleProduct);
     this.setState({ produtosNoCarrinho: filter });
     localStorage.setItem('produtosSalvos', JSON.stringify(filter));
@@ -87,6 +79,9 @@ export default class Cart extends Component {
             </div>
           )
         }
+        <button type="button" className="botao">
+          <Link to="/checkout" data-testid="checkout-products">Finalizar a compra </Link>
+        </button>
       </div>
     );
   }
