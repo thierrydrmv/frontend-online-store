@@ -50,7 +50,7 @@ export default class Products extends Component {
   };
 
   render() {
-    const { title, thumbnail, price, id } = this.props;
+    const { title, thumbnail, price, id, avlQnt } = this.props;
     return (
       <>
         <Link to={ `/DetailedProduct/${id}` } data-testid="product-detail-link">
@@ -76,7 +76,8 @@ export default class Products extends Component {
         <button
           data-testid="product-add-to-cart"
           type="button"
-          onClick={ () => this.atualizaStorage({ title, image: thumbnail, price }) }
+          onClick={ () => this.atualizaStorage({
+            title, image: thumbnail, price, id, avlQnt }) }
         >
           Adicionar ao Carrinho
         </button>
@@ -90,4 +91,5 @@ Products.propTypes = {
   id: PropTypes.string.isRequired,
   thumbnail: PropTypes.string.isRequired,
   price: PropTypes.number.isRequired,
+  avlQnt: PropTypes.number.isRequired,
 };
