@@ -13,12 +13,14 @@ export default class Cart extends Component {
     });
   }
 
-  increaseQuantity = (titleProduct) => {
+  increaseQuantity = (titleProduct, avlqnt) => {
     const { produtosNoCarrinho } = this.state;
     const filter = produtosNoCarrinho.filter(({ title }) => title === titleProduct);
-    filter[0].quantidade += 1;
-    this.setState({ produtosNoCarrinho });
-    localStorage.setItem('produtosSalvos', JSON.stringify(produtosNoCarrinho));
+    if (filter[0].quantidade < avlqnt) {
+      filter[0].quantidade += 1;
+      this.setState({ produtosNoCarrinho });
+      localStorage.setItem('produtosSalvos', JSON.stringify(produtosNoCarrinho));
+    }
   };
 
   decreaseQuantity = (titleProduct) => {
@@ -44,14 +46,14 @@ export default class Cart extends Component {
       <div>
         {
           produtosNoCarrinho && produtosNoCarrinho.length ? (
-            produtosNoCarrinho.map(({ title, price, image, quantidade }) => (
+            produtosNoCarrinho.map(({ title, price, image, quantidade, avlQnt }) => (
               <div key={ title }>
                 <p data-testid="shopping-cart-product-name">{ title }</p>
                 <p>{ price }</p>
                 <img src={ image } alt={ title } />
                 <p data-testid="shopping-cart-product-quantity">{ quantidade }</p>
                 <button
-                  onClick={ () => this.increaseQuantity(title) }
+                  onClick={ () => this.increaseQuantity(title, avlQnt) }
                   data-testid="product-increase-quantity"
                   type="button"
                 >
