@@ -40,8 +40,10 @@ export default class DetailedProduct extends Component {
 
     produtosDiferentes.push({
       title: produto[0].title,
+      id: produto[0].id,
       price: produto[0].price,
       image: produto[0].thumbnail,
+      avlQnt: produto[0].available_quantity,
       quantidade: this.atualizaEstado(),
     });
 

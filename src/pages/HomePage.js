@@ -73,7 +73,13 @@ export default class HomePage extends Component {
           </div>
         ) }
         <Category onCategorySet={ this.setProducts } />
-        {hasProduct ? products.map(({ title, thumbnail, price, id }) => (
+        {hasProduct ? products.map(({
+          title,
+          thumbnail,
+          price,
+          id,
+          available_quantity: avlQnt,
+        }) => (
           <div key={ id }>
             <Products
               id={ id }
@@ -81,6 +87,7 @@ export default class HomePage extends Component {
               thumbnail={ thumbnail }
               price={ price }
               handleCartSize={ this.handleCartSize }
+              avlQnt={ avlQnt }
             />
           </div>
         )) : 'Nenhum produto foi encontrado'}
