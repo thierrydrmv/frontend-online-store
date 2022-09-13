@@ -1,14 +1,10 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
-// import { getProductById } from '../services/api';
 
 export default class Products extends Component {
-  // state = {
-  //   produto: [],
-  // };
-
   atualizaStorage = async (item) => {
+    const { handleCartSize } = this.props;
     const produtosAntigos = JSON.parse(localStorage.getItem('produtosSalvos'));
     let produtosDiferentes = [];
     const count = () => {
@@ -33,11 +29,7 @@ export default class Products extends Component {
       quantidade: count(),
     });
     localStorage.setItem('produtosSalvos', JSON.stringify(produtosDiferentes));
-    const products = JSON.parse(localStorage.getItem('produtosSalvos'));
-    const value = products
-      .map(({ quantidade }) => quantidade)
-      .reduce((prev, curr) => prev + curr, 0);
-    localStorage.setItem('cartSize', JSON.stringify(value));
+    handleCartSize();
   };
 
   render() {
@@ -81,4 +73,5 @@ Products.propTypes = {
   id: PropTypes.string.isRequired,
   thumbnail: PropTypes.string.isRequired,
   price: PropTypes.number.isRequired,
+  handleCartSize: PropTypes.func.isRequired,
 };

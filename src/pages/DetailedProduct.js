@@ -12,16 +12,21 @@ export default class DetailedProduct extends Component {
     option: null,
     comentario: '',
     avaliacoes: [],
+    cartSize: 0,
   };
 
   async componentDidMount() {
     const { match: { params: { id } } } = this.props;
     const avaliacoesAnteriores = localStorage.getItem(id);
+    const cart = JSON.parse(localStorage.getItem('cartSize'));
     if (avaliacoesAnteriores) {
       this.setState({ avaliacoes: JSON.parse(avaliacoesAnteriores) });
     }
     const produto = await getProductById(id);
-    this.setState({ produto: [produto] });
+    this.setState({
+      produto: [produto],
+      cartSize: cart,
+    });
   }
 
   atualizaStorage = async () => {
@@ -107,6 +112,7 @@ export default class DetailedProduct extends Component {
       email,
       comentario,
       avaliacoes,
+      cartSize,
     } = this.state;
 
     return (
@@ -132,7 +138,7 @@ export default class DetailedProduct extends Component {
         <button type="button" className="botao">
           <Link to="/Cart" data-testid="shopping-cart-button">Carrinho</Link>
         </button>
-
+        <p data-testid="shopping-cart-size" className="botao">{cartSize}</p>
         <form>
           <input
             type="email"

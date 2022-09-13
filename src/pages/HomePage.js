@@ -17,11 +17,15 @@ export default class HomePage extends Component {
     this.setState({ cartSize: cart });
   }
 
-  // componentDidUpdate() {
-  //   const cart = JSON.parse(localStorage.getItem('cartSize'));
-  //   const atualizaRender = () => this.setState({ cartSize: cart });
-  //   atualizaRender();
-  // }
+  handleCartSize = () => {
+    const products = JSON.parse(localStorage.getItem('produtosSalvos'));
+    const value = products
+      .map(({ quantidade }) => quantidade)
+      .reduce((prev, curr) => prev + curr, 0);
+    console.log(value);
+    localStorage.setItem('cartSize', JSON.stringify(value));
+    this.setState({ cartSize: value });
+  };
 
   handleChange = ({ target }) => {
     this.setState({ search: target.value });
@@ -76,6 +80,7 @@ export default class HomePage extends Component {
               title={ title }
               thumbnail={ thumbnail }
               price={ price }
+              handleCartSize={ this.handleCartSize }
             />
           </div>
         )) : 'Nenhum produto foi encontrado'}
