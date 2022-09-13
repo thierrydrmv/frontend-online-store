@@ -9,20 +9,7 @@ export default class Products extends Component {
   // };
 
   atualizaStorage = async (item) => {
-    // const { produto } = this.state;
-    // const { firstChild } = target.parentNode;
-    // const idProduct = firstChild.firstChild.firstChild.innerText;
-    // const produtos = await getProductById(idProduct);
-    // this.setState({ produto: [produtos] });
     const produtosAntigos = JSON.parse(localStorage.getItem('produtosSalvos'));
-    // const titleProduct = (
-    //   firstChild.firstChild.firstChild.nextSibling.innerText);
-    // const priceProduct = (
-    //   firstChild.firstChild.firstChild.nextSibling.nextSibling.innerText
-    // );
-    // const imageProduct = (
-    //   firstChild.firstChild.firstChild.nextSibling.nextSibling.nextSibling.src
-    // );
     let produtosDiferentes = [];
     const count = () => {
       let number = 1;
@@ -46,7 +33,11 @@ export default class Products extends Component {
       quantidade: count(),
     });
     localStorage.setItem('produtosSalvos', JSON.stringify(produtosDiferentes));
-    // console.log(produto);
+    const products = JSON.parse(localStorage.getItem('produtosSalvos'));
+    const value = products
+      .map(({ quantidade }) => quantidade)
+      .reduce((prev, curr) => prev + curr, 0);
+    localStorage.setItem('cartSize', JSON.stringify(value));
   };
 
   render() {

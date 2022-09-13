@@ -9,7 +9,19 @@ export default class HomePage extends Component {
     products: [],
     search: '',
     hasProduct: false,
+    cartSize: 0,
   };
+
+  componentDidMount() {
+    const cart = JSON.parse(localStorage.getItem('cartSize'));
+    this.setState({ cartSize: cart });
+  }
+
+  // componentDidUpdate() {
+  //   const cart = JSON.parse(localStorage.getItem('cartSize'));
+  //   const atualizaRender = () => this.setState({ cartSize: cart });
+  //   atualizaRender();
+  // }
 
   handleChange = ({ target }) => {
     this.setState({ search: target.value });
@@ -26,7 +38,7 @@ export default class HomePage extends Component {
   };
 
   render() {
-    const { search, hasProduct, products } = this.state;
+    const { search, hasProduct, products, cartSize } = this.state;
     return (
       <div className="pai">
         <input onInput={ this.handleChange } data-testid="query-input" />
@@ -39,8 +51,14 @@ export default class HomePage extends Component {
 
         </button>
         <button type="button" className="botao">
-          <Link to="/Cart" data-testid="shopping-cart-button">Carrinho</Link>
+          <Link
+            to="/Cart"
+            data-testid="shopping-cart-button"
+          >
+            Carrinho
+          </Link>
         </button>
+        <p data-testid="shopping-cart-size" className="botao">{cartSize}</p>
         { !search
         && (
           <div className="products">
