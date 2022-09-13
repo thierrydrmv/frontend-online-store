@@ -1,28 +1,11 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
-// import { getProductById } from '../services/api';
 
 export default class Products extends Component {
-  // state = {
-  //   produto: [],
-  // };
-
   atualizaStorage = async (item) => {
-    // const { produto } = this.state;
-    // const { firstChild } = target.parentNode;
-    // const idProduct = firstChild.firstChild.firstChild.innerText;
-    // const produtos = await getProductById(idProduct);
-    // this.setState({ produto: [produtos] });
+    const { handleCartSize } = this.props;
     const produtosAntigos = JSON.parse(localStorage.getItem('produtosSalvos'));
-    // const titleProduct = (
-    //   firstChild.firstChild.firstChild.nextSibling.innerText);
-    // const priceProduct = (
-    //   firstChild.firstChild.firstChild.nextSibling.nextSibling.innerText
-    // );
-    // const imageProduct = (
-    //   firstChild.firstChild.firstChild.nextSibling.nextSibling.nextSibling.src
-    // );
     let produtosDiferentes = [];
     const count = () => {
       let number = 1;
@@ -46,7 +29,7 @@ export default class Products extends Component {
       quantidade: count(),
     });
     localStorage.setItem('produtosSalvos', JSON.stringify(produtosDiferentes));
-    // console.log(produto);
+    handleCartSize();
   };
 
   render() {
@@ -91,5 +74,6 @@ Products.propTypes = {
   id: PropTypes.string.isRequired,
   thumbnail: PropTypes.string.isRequired,
   price: PropTypes.number.isRequired,
+  handleCartSize: PropTypes.func.isRequired,
   avlQnt: PropTypes.number.isRequired,
 };

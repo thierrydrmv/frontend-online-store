@@ -9,6 +9,22 @@ export default class HomePage extends Component {
     products: [],
     search: '',
     hasProduct: false,
+    cartSize: 0,
+  };
+
+  componentDidMount() {
+    const cart = JSON.parse(localStorage.getItem('cartSize'));
+    this.setState({ cartSize: cart });
+  }
+
+  handleCartSize = () => {
+    const products = JSON.parse(localStorage.getItem('produtosSalvos'));
+    const value = products
+      .map(({ quantidade }) => quantidade)
+      .reduce((prev, curr) => prev + curr, 0);
+    console.log(value);
+    localStorage.setItem('cartSize', JSON.stringify(value));
+    this.setState({ cartSize: value });
   };
 
   handleChange = ({ target }) => {
@@ -26,7 +42,7 @@ export default class HomePage extends Component {
   };
 
   render() {
-    const { search, hasProduct, products } = this.state;
+    const { search, hasProduct, products, cartSize } = this.state;
     return (
       <div className="pai">
         <input onInput={ this.handleChange } data-testid="query-input" />
@@ -39,8 +55,14 @@ export default class HomePage extends Component {
 
         </button>
         <button type="button" className="botao">
-          <Link to="/Cart" data-testid="shopping-cart-button">Carrinho</Link>
+          <Link
+            to="/Cart"
+            data-testid="shopping-cart-button"
+          >
+            Carrinho
+          </Link>
         </button>
+        <p data-testid="shopping-cart-size" className="botao">{cartSize}</p>
         { !search
         && (
           <div className="products">
@@ -64,6 +86,7 @@ export default class HomePage extends Component {
               title={ title }
               thumbnail={ thumbnail }
               price={ price }
+              handleCartSize={ this.handleCartSize }
               avlQnt={ avlQnt }
             />
           </div>
